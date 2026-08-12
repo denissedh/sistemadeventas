@@ -1,0 +1,621 @@
+<?php
+include ('../app/config.php');
+include ('../layout/sesion.php');
+
+include ('../layout/parte1.php');
+
+include ('../app/controllers/almacen/listado_de_productos.php');
+include ('../app/controllers/proveedores/listado_de_proveedores.php');
+include ('../app/controllers/compras/cargar_compra.php');
+
+?>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <h1 class="m-0">Actualización de la compra</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-success">
+                                <div class="card-header">
+                                    <h3 class="card-title">Llene los datos con cuidado</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-body" style="display: block;">
+                                    <div style="display: flex">
+                                        <h5>Datos del producto </h5>
+                                        <div style="width: 20px"></div>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#modal-buscar_producto">
+                                            <i class="fa fa-search"></i>
+                                            Buscar producto
+                                        </button>
+                                        <!-- modal para visualizar datos de los productos -->
+                                        <div class="modal fade" id="modal-buscar_producto">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background-color: #1d36b6;color: white">
+                                                        <h4 class="modal-title">Búsqueda del producto</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="table table-responsive">
+                                                            <table id="example1" class="table table-bordered table-striped table-sm">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th><center>Nro</center></th>
+                                                                    <th><center>Seleccionar</center></th>
+                                                                    <th><center>Código</center></th>
+                                                                    <th><center>Categoría</center></th>
+                                                                    <th><center>Imagen</center></th>
+                                                                    <th><center>Nombre</center></th>
+                                                                    <th><center>Descripción</center></th>
+                                                                    <th><center>Stock</center></th>
+                                                                    <th><center>Precio compra</center></th>
+                                                                    <th><center>Precio venta</center></th>
+                                                                    <th><center>Fecha ingreso</center></th>
+                                                                    <th><center>Usuario</center></th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <?php
+                                                                $contador = 0;
+                                                                foreach ($productos_datos as $productos_dato){
+                                                                    $contador++;
+                                                                    $id_producto = $productos_dato['id_producto']; ?>
+                                                                    <tr>
+                                                                        <td><?php echo $contador; ?></td>
+                                                                        <td>
+                                                                            <button class="btn btn-info btn-seleccionar-producto"
+                                                                                    data-id="<?php echo $id_producto;?>"
+                                                                                    data-codigo="<?php echo $productos_dato['codigo'];?>"
+                                                                                    data-categoria="<?php echo $productos_dato['categoria'];?>"
+                                                                                    data-nombre="<?php echo $productos_dato['nombre'];?>"
+                                                                                    data-email="<?php echo $productos_dato['email'];?>"
+                                                                                    data-descripcion="<?php echo $productos_dato['descripcion'];?>"
+                                                                                    data-stock="<?php echo $productos_dato['stock'];?>"
+                                                                                    data-stock_min="<?php echo $productos_dato['stock_minimo'];?>"
+                                                                                    data-stock_max="<?php echo $productos_dato['stock_maximo'];?>"
+                                                                                    data-precio_compra="<?php echo $productos_dato['precio_compra'];?>"
+                                                                                    data-precio_venta="<?php echo $productos_dato['precio_venta'];?>"
+                                                                                    data-fecha="<?php echo $productos_dato['fecha_ingreso'];?>"
+                                                                                    data-imagen="<?php echo $URL.'/almacen/img_productos/'.$productos_dato['imagen'];?>">
+                                                                                Seleccionar
+                                                                            </button>
+                                                                        </td>
+                                                                        <td><?php echo $productos_dato['codigo'];?></td>
+                                                                        <td><?php echo $productos_dato['categoria'];?></td>
+                                                                        <td>
+                                                                            <img src="<?php echo $URL."/almacen/img_productos/".$productos_dato['imagen'];?>" width="50px" alt="">
+                                                                        </td>
+                                                                        <td><?php echo $productos_dato['nombre'];?></td>
+                                                                        <td><?php echo $productos_dato['descripcion'];?></td>
+                                                                        <td><?php echo $productos_dato['stock'];?></td>
+                                                                        <td><?php echo $productos_dato['precio_compra'];?></td>
+                                                                        <td><?php echo $productos_dato['precio_venta'];?></td>
+                                                                        <td><?php echo $productos_dato['fecha_ingreso'];?></td>
+                                                                        <td><?php echo $productos_dato['email'];?></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                        <!-- /.modal -->
+                                    </div>
+
+                                    <hr>
+                                    <div class="row" style="font-size: 12px">
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <input type="text" value="<?= $id_producto; ?>" id="id_producto" hidden>
+                                                        <label for="">Código:</label>
+                                                        <input type="text" value="<?= $codigo; ?>" class="form-control" id="codigo" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Categoría:</label>
+                                                        <div style="display: flex">
+                                                            <input type="text" value="<?= $nombre_categoria; ?>" class="form-control" id="categoria" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Nombre del producto:</label>
+                                                        <input type="text" value="<?= $nombre_producto; ?>" name="nombre" id="nombre_producto" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Usuario</label>
+                                                        <input type="text" value="<?= $nombre_usuarios_producto; ?>" class="form-control" id="usuario_producto" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="">Descripción del producto:</label>
+                                                        <textarea name="descripcion" id="descripcio_producto" cols="30" rows="2" class="form-control" disabled><?= $descripcion; ?></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Stock:</label>
+                                                        <input type="number" value="<?= $stock; ?>" name="stock" id="stock" class="form-control" style="background-color: #fff819" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Stock mínimo:</label>
+                                                        <input type="number" value="<?= $stock_minimo; ?>" name="stock_minimo" id="stock_minimo" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Stock máximo:</label>
+                                                        <input type="number" value="<?= $stock_maximo; ?>" name="stock_maximo" id="stock_maximo" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Precio compra:</label>
+                                                        <input type="number" value="<?= $precio_compra_producto; ?>" name="precio_compra" id="precio_compra" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Precio venta:</label>
+                                                        <input type="number" value="<?= $precio_venta_producto; ?>" name="precio_venta" id="precio_venta" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Fecha de ingreso:</label>
+                                                        <input type="date" style="font-size: 12px" value="<?= $fecha_ingreso; ?>" name="fecha_ingreso" id="fecha_ingreso" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">Imagen del producto</label>
+                                                <center>
+                                                    <img src="<?php echo $URL."/almacen/img_productos/".$imagen;?>" id="img_producto" width="50%" alt="">
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <div style="display: flex">
+                                        <h5>Datos del proveedor </h5>
+                                        <div style="width: 20px"></div>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#modal-buscar_proveedor">
+                                            <i class="fa fa-search"></i>
+                                            Buscar proveedor
+                                        </button>
+                                        <!-- modal para visualizar datos de los proveedores -->
+                                        <div class="modal fade" id="modal-buscar_proveedor">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background-color: #1d36b6;color: white">
+                                                        <h4 class="modal-title">Búsqueda de proveedor</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="table table-responsive">
+                                                            <table id="example2" class="table table-bordered table-striped table-sm">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th><center>Nro</center></th>
+                                                                    <th><center>Seleccionar</center></th>
+                                                                    <th><center>Nombre del proveedor</center></th>
+                                                                    <th><center>Celular</center></th>
+                                                                    <th><center>Teléfono</center></th>
+                                                                    <th><center>Empresa</center></th>
+                                                                    <th><center>Email</center></th>
+                                                                    <th><center>Dirección</center></th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <?php
+                                                                $contador = 0;
+                                                                foreach ($proveedores_datos as $proveedores_dato){
+                                                                    $contador++;
+                                                                    $id_proveedor = $proveedores_dato['id_proveedor'];
+                                                                    $nombre_proveedor = $proveedores_dato['nombre_proveedor']; ?>
+                                                                    <tr>
+                                                                        <td><center><?php echo $contador;?></center></td>
+                                                                        <td>
+                                                                            <button class="btn btn-info btn-seleccionar-proveedor"
+                                                                                    data-id="<?php echo $id_proveedor; ?>"
+                                                                                    data-nombre="<?php echo $nombre_proveedor; ?>"
+                                                                                    data-celular="<?php echo $proveedores_dato['celular']; ?>"
+                                                                                    data-telefono="<?php echo $proveedores_dato['telefono']; ?>"
+                                                                                    data-empresa="<?php echo $proveedores_dato['empresa']; ?>"
+                                                                                    data-email="<?php echo $proveedores_dato['email']; ?>"
+                                                                                    data-direccion="<?php echo $proveedores_dato['direccion']; ?>">
+                                                                                Seleccionar
+                                                                            </button>
+                                                                        </td>
+                                                                        <td><?php echo $nombre_proveedor;?></td>
+                                                                        <td>
+                                                                            <a href="https://wa.me/591<?php echo $proveedores_dato['celular'];?>" target="_blank" class="btn btn-success">
+                                                                                <i class="fa fa-whatsapp"></i>
+                                                                                <?php echo $proveedores_dato['celular'];?>
+                                                                            </a>
+                                                                        </td>
+                                                                        <td><?php echo $proveedores_dato['telefono'];?></td>
+                                                                        <td><?php echo $proveedores_dato['empresa'];?></td>
+                                                                        <td><?php echo $proveedores_dato['email'];?></td>
+                                                                        <td><?php echo $proveedores_dato['direccion'];?></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                        <!-- /.modal -->
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="container-fluid" style="font-size: 12px">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <input type="text" value="<?= $id_proveedor_tabla; ?>" id="id_proveedor" hidden>
+                                                    <label for="">Nombre del proveedor </label>
+                                                    <input type="text" value="<?= $nombre_proveedor_tabla; ?>" id="nombre_proveedor" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Celular</label>
+                                                    <input type="number" value="<?= $celular_proveedor; ?>" id="celular" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Teléfono</label>
+                                                    <input type="number" value="<?= $telefono_proveedor; ?>" id="telefono" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Empresa </label>
+                                                    <input type="text" value="<?= $empresa; ?>" id="empresa" class="form-control" disabled>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Email</label>
+                                                    <input type="email" value="<?= $email_proveedor; ?>" id="email" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Dirección</label>
+                                                    <textarea name="" id="direccion" cols="30" rows="3" class="form-control" disabled><?= $direccion_proveedor; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-outline card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Detalle de la compra</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Número de la compra</label>
+                                                <input type="text" value="<?php echo $nro_compra; ?>" style="text-align: center" class="form-control" disabled>
+                                                <input type="text" value="<?php echo $nro_compra; ?>" id="nro_compra" hidden>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Fecha de la compra</label>
+                                                <input type="date" value="<?= $fecha_compra; ?>" class="form-control" id="fecha_compra">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Comprobante de la compra</label>
+                                                <input type="text" value="<?= $comprobante; ?>" class="form-control" id="comprobante">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Precio de la compra</label>
+                                                <input type="text" value="<?= $precio_compra; ?>" class="form-control" id="precio_compra_controlador">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Stock actual</label>
+                                                <input type="text" value="<?= $stock - $cantidad; ?>" style="background-color: #fff819;text-align: center" id="stock_actual" class="form-control" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Stock Total</label>
+                                                <input type="text" style="text-align: center" id="stock_total" class="form-control" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Cantidad de la compra</label>
+                                                <input type="number" value="<?= $cantidad; ?>" id="cantidad_compra" style="text-align: center" class="form-control">
+                                            </div>
+                                            <script>
+                                                $('#cantidad_compra').keyup(function () {
+                                                    sumacantidades();
+                                                });
+                                                sumacantidades();
+                                                function sumacantidades (){
+                                                    var stock_actual = parseInt($('#stock_actual').val()) || 0;
+                                                    var stock_compra = parseInt($('#cantidad_compra').val()) || 0;
+                                                    var total = stock_actual + stock_compra;
+                                                    $('#stock_total').val(total);
+                                                }
+                                            </script>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Usuario</label>
+                                                <input type="text" class="form-control" value="<?php echo $nombres_usuarios; ?>" disabled>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <hr>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button class="btn btn-success btn-block" id="btn_actualizar_compra">Actualizar compra</button>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $('#btn_actualizar_compra').click(function () {
+                                            var id_compra = '<?php echo $id_compra; ?>';
+                                            var id_producto = $('#id_producto').val();
+                                            var nro_compra = $('#nro_compra').val();
+                                            var fecha_compra = $('#fecha_compra').val();
+                                            var id_proveedor = $('#id_proveedor').val();
+                                            var comprobante = $('#comprobante').val();
+                                            var id_usuarios = '<?php echo $id_usuario_sesion;?>'; 
+                                            var precio_compra = $('#precio_compra_controlador').val();
+                                            var cantidad_compra = $('#cantidad_compra').val();
+                                            var stock_total = $('#stock_total').val();
+
+                                            if(id_producto == ""){
+                                                alert("Debe seleccionar un producto");
+                                                $('#modal-buscar_producto').modal('show');
+                                            }else if(fecha_compra == ""){
+                                                $('#fecha_compra').focus();
+                                                alert("Debe ingresar la fecha de compra");
+                                            }else if(comprobante == ""){
+                                                $('#comprobante').focus();
+                                                alert("Debe ingresar el comprobante");
+                                            }else if (precio_compra == "" || precio_compra <= 0){
+                                                $('#precio_compra_controlador').focus();
+                                                alert("Debe ingresar un precio válido");
+                                            }else if(cantidad_compra == "" || cantidad_compra <= 0){
+                                                $('#cantidad_compra').focus();
+                                                alert("Debe ingresar una cantidad válida");
+                                            }else{
+                                                
+                                                var url = "../app/controllers/compras/update.php";
+                                                
+                                                $.get(url,{
+                                                    id_compra:id_compra,
+                                                    id_producto:id_producto,
+                                                    nro_compra:nro_compra,
+                                                    fecha_compra:fecha_compra,
+                                                    id_proveedor:id_proveedor,
+                                                    comprobante:comprobante,
+                                                    id_usuarios:id_usuarios, 
+                                                    precio_compra:precio_compra,
+                                                    cantidad_compra:cantidad_compra,
+                                                    stock_total:stock_total
+                                                },function (datos) {
+                                                    $('#respuesta_update').html(datos);
+                                                });
+                                            }
+                                        });
+                                    </script>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div id="respuesta_update"></div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<?php include ('../layout/mensajes.php'); ?>
+<?php include ('../layout/parte2.php'); ?>
+
+<script>
+    // Script para seleccionar producto
+    $('.btn-seleccionar-producto').on('click', function () {
+        $('#id_producto').val($(this).data('id'));
+        $('#codigo').val($(this).data('codigo'));
+        $('#categoria').val($(this).data('categoria'));
+        $('#nombre_producto').val($(this).data('nombre'));
+        $('#usuario_producto').val($(this).data('email'));
+        $('#descripcio_producto').val($(this).data('descripcion'));
+        $('#stock').val($(this).data('stock'));
+        $('#stock_actual').val($(this).data('stock'));
+        $('#stock_minimo').val($(this).data('stock_min'));
+        $('#stock_maximo').val($(this).data('stock_max'));
+        $('#precio_compra').val($(this).data('precio_compra'));
+        $('#precio_venta').val($(this).data('precio_venta'));
+        $('#fecha_ingreso').val($(this).data('fecha'));
+        $('#img_producto').attr('src', $(this).data('imagen'));
+        $('#modal-buscar_producto').modal('hide');
+    });
+
+    // Script para seleccionar proveedor
+    $('.btn-seleccionar-proveedor').on('click', function () {
+        $('#id_proveedor').val($(this).data('id'));
+        $('#nombre_proveedor').val($(this).data('nombre'));
+        $('#celular').val($(this).data('celular'));
+        $('#telefono').val($(this).data('telefono'));
+        $('#empresa').val($(this).data('empresa'));
+        $('#email').val($(this).data('email'));
+        $('#direccion').val($(this).data('direccion'));
+        $('#modal-buscar_proveedor').modal('hide');
+    });
+
+    // Inicializar DataTables
+    $(function () {
+        $("#example1").DataTable({
+            "pageLength": 5,
+            "language": {
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Productos",
+                "infoEmpty": "Mostrando 0 a 0 de 0 Productos",
+                "infoFiltered": "(Filtrado de _MAX_ total Productos)",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Productos",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscador:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": false
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+
+    $(function () {
+        $("#example2").DataTable({
+            "pageLength": 5,
+            "language": {
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Proveedores",
+                "infoEmpty": "Mostrando 0 a 0 de 0 Proveedores",
+                "infoFiltered": "(Filtrado de _MAX_ total Proveedores)",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Proveedores",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscador:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": false
+        }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+    });
+</script>

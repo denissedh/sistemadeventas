@@ -1,0 +1,18 @@
+# Configuración local
+.env
+
+# Logs
+*.log
+
+# Archivos de Windows
+Thumbs.db
+.DS_Store
+
+# Visual Studio Code
+.vscode/
+
+# Dependencias
+vendor/
+node_modules/
+
+*.sql
